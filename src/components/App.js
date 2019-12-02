@@ -41,8 +41,11 @@ class App extends Component {
       })
   }
 
-  deletePost() {
-
+  deletePost(id) {
+    axios.delete(`https://practiceapi.devmountain.com/api/posts?id=${id}`)
+      .then(response => {
+        this.setState({posts: response.data})
+      })
   }
 
   createPost() {
@@ -65,7 +68,8 @@ class App extends Component {
               id={v.id} 
               text={v.text} 
               date={v.date}
-              updatePostFn={this.updatePost} />)
+              updatePostFn={this.updatePost}
+              deletePostFn={this.deletePost} />)
           })}
         </section>
       </div>

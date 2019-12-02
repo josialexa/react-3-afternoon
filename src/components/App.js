@@ -23,15 +23,22 @@ class App extends Component {
   componentDidMount() {
     axios.get('https://practiceapi.devmountain.com/api/posts')
       .then(response => {
+        console.log(response.data)
         this.setState({posts: response.data})
       })
       .catch(error => {
-        console.log('Error getting posts on mount!', error)
+        console.log('Get on mount:', error)
       })
   }
 
-  updatePost() {
-  
+  updatePost(id, text) {
+    axios.put(`https://practiceapi.devmountain.com/api/posts?id=${id}`, text)
+      .then(response => {
+        this.setState({posts: response.data})
+      })
+      .catch(error => {
+        console.log('Posts update:', error)
+      })
   }
 
   deletePost() {
@@ -53,7 +60,12 @@ class App extends Component {
 
           <Compose />
           {this.state.posts.map((v, i) => {
-            return <Post key={i} text={v.text} date={v.date} />
+            return (<Post 
+              key={i}
+              id={v.id} 
+              text={v.text} 
+              date={v.date}
+              updatePostFn={this.updatePost} />)
           })}
         </section>
       </div>

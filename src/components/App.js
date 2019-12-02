@@ -53,7 +53,7 @@ class App extends Component {
 
           <Compose />
           {this.state.posts.map((v, i) => {
-            return <Post key={i} />
+            return <Post key={i} text={v.text} date={v.date} />
           })}
         </section>
       </div>

@@ -23,7 +23,6 @@ class App extends Component {
   componentDidMount() {
     axios.get('https://practiceapi.devmountain.com/api/posts')
       .then(response => {
-        console.log(response.data)
         this.setState({posts: response.data})
       })
       .catch(error => {
@@ -61,12 +60,23 @@ class App extends Component {
       })
   }
 
+  searchPosts(text) {
+    axios.get(`https://practiceapi.devmountain.com/api/posts/filter?text=${encodeURI(text)}`)
+      .then(response => {
+        this.setState({posts: response.data})
+      })
+      .catch(error => {
+        console.log('Filter posts:', error)
+      })
+  }
+
   render() {
     const { posts } = this.state;
 
     return (
       <div className="App__parent">
-        <Header />
+        <Header
+          searchPostsFn={this.searchPosts.bind(this)} />
 
         <section className="App__content">
 
